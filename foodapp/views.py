@@ -5,7 +5,7 @@ from .mock_lists import mock_food_list
 
 def food_item_ac(request):
 
-    word = request.GET.get('word', None)
+    word = request.GET.get('q', None)
 
     filtered = []
 
