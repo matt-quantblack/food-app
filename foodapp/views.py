@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .mock_food_list import mock_food_list
+from .mock_lists import mock_food_list
 
 def food_item_ac(request):
 

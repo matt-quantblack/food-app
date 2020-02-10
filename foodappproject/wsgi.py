@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.1/howto/deployment/wsgi/
 
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "foodapp-project.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "foodappproject.settings")
 
 from django.core.wsgi import get_wsgi_application
 
