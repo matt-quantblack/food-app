@@ -19,9 +19,7 @@ def food_item_ac(request):
 def get_results(request):
 
     ingredients = request.POST.getlist("ingredients[]")
-    print("HERE")
-    for i in ingredients:
-        print(i)
+
     #select all recipes from api that have the listed ingredients
     #do some filtering
     #do some sorting

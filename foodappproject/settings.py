@@ -61,9 +61,10 @@ CORS_ALLOW_METHODS = [
     'GET',
     'POST',
 ]
-
+SESSION_COOKIE_SAMESITE = None
 CSRF_TRUSTED_ORIGINS = [
-    'change.allowed.com',
+    '127.0.0.1',
+    'sustainable-food-app.herokuapp.com'
 ]
 
 ROOT_URLCONF = "foodappproject.urls"
