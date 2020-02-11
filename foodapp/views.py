@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.db import IntegrityError
 from .models import Recipe, Profile
+from .sorting import getOrderedRecipes, initialiseDic, leastNeededIngredient
 from django.db.models import Avg
 import requests
 
@@ -116,8 +117,10 @@ def make_recipe(request):
 
 def get_results(request):
 
-    ingredients = request.GET.get('ingredients', None)
+    ingredients = request.GET.get('q', None)
+    preferences = request.GET.get('p', None)
     token = request.GET.get('auth', None)
+
     if token is not None:
         user = Token.objects.get(key=token).user
         #do stuff with user preferences here
@@ -127,23 +130,36 @@ def get_results(request):
     r = getMockResponseRecipes()
 
     if r.status_code == 200:
-        RecipeResult = r.json()
-        Inputs = ingredients.split(",")
-                
-        RecipeResult = RecipeResult["hits"]
-        for hits in RecipeResult:
-            Recipe = hits["recipe"]
-            Ingredients = Recipe["ingredientLines"]
-            Match = []
-            for I in Ingredients:
-                for i in Inputs:
-                    I = I.lower()
-                    i = i.lower()
-                    if I.find(i) != -1:
-                        Match.append(i.title())
-            Recipe["match"] = Match        
-        #ordering function here
-        return JsonResponse(RecipeResult)
+        json = r.json()
+
+        if ingredients is not None:
+            Inputs = ingredients.split(",")
+
+            #adds matched ingredients from query string
+            RecipeResult = json["hits"]
+            for hits in RecipeResult:
+                Recipe = hits["recipe"]
+                Ingredients = Recipe["ingredientLines"]
+                Match = []
+                for I in Ingredients:
+                    for i in Inputs:
+                        I = I.lower()
+                        i = i.lower()
+                        if I.find(i) != -1:
+                            Match.append(i.title())
+                Recipe["match"] = Match
+
+            json["hits"] = RecipeResult
+
+            # orders list based on number of ingredients matched
+
+            #initialiseDic(json)
+            #leastNeededIngredient(ingredients, json)
+            #json["hits"] = getOrderedRecipes(json)
+            #print(json)
+            return JsonResponse(json, safe=False)
+        else:
+            return JsonResponse({'error': 'No ingredients'})
     else:
         return JsonResponse({'error': 'could not make request'})
 
