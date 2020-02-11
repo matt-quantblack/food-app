@@ -39,15 +39,3 @@ def get_results(request):
     else:
         return JsonResponse({'error': 'could not make request'})
 
-
-def get_recipe(request):
-
-    recipe_id = request.GET('id', None)
-
-    #get the recipe from the api
-    recipe = mock_recipes[0]
-
-    return JsonResponse({'data': recipe})
-
-def dashboard(request):
-    return JsonResponse({'success': True})
