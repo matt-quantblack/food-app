@@ -132,6 +132,28 @@ def get_results(request):
     r = getMockResponseRecipes()
 
     if r.status_code == 200:
+<<<<<<< HEAD
+        RecipeResult = r.json()
+        if ingredients.find("Box#")!=-1:
+            Inputs = getOzBox(name);
+        else:
+            Inputs = ingredients.split(",")
+                
+        RecipeResult = RecipeResult["hits"]
+        for hits in RecipeResult:
+            Recipe = hits["recipe"]
+            Ingredients = Recipe["ingredientLines"]
+            Match = []
+            for I in Ingredients:
+                for i in Inputs:
+                    I = I.lower()
+                    i = i.lower()
+                    if I.find(i) != -1:
+                        Match.append(i.title())
+            Recipe["match"] = Match        
+        #ordering function here
+        return JsonResponse(RecipeResult)
+=======
         json = r.json()
 
         if ingredients is not None:
@@ -158,10 +180,10 @@ def get_results(request):
 
             # orders list based on number of ingredients matched
 
-            initialiseDic(json)
-            leastNeededIngredient(Inputs, json)
-            json = getOrderedRecipes(json)
-            print(json)
+            #initialiseDic(json)
+            #leastNeededIngredient(ingredients, json)
+            #json["hits"] = getOrderedRecipes(json)
+            #print(json)
             return JsonResponse(json, safe=False)
         else:
             return JsonResponse({'error': 'No ingredients'})
