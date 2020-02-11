@@ -15,8 +15,6 @@ def create_user(request):
     email = request.GET.get('email', None)
     password = request.GET.get('password', None)
 
-    """
-    Waiting on DB deployment
     try:
         user = User.objects.create_user(
             username=email,
@@ -32,7 +30,7 @@ def create_user(request):
         user.save()
     except (Exception, IntegrityError) as e:
         return JsonResponse({'error': 'could not create user: {}'.format(e)})
-    """
+
     return JsonResponse({'success': True})
 
 
@@ -46,8 +44,6 @@ def food_item_ac(request):
     return JsonResponse({'data': ingredients})
 
 def get_stats(request):
-    """
-    Waiting in datbase deployment
     token = request.GET.get('auth', None)
 
     if token is None:
@@ -57,13 +53,12 @@ def get_stats(request):
 
     if user is None:
         return JsonResponse({'error': 'user doesnt exist'})
-    """
 
-    kgsaved = 5.2 #user.profile.foodsaved / 1000
+    kgsaved = user.profile.foodsaved / 1000
     co2saved = 5 * kgsaved
     dollarsaved = 1.5 * kgsaved
 
-    averagekgsaved = 4.2#Profile.objects.all().aggregate(Avg('foodsaved')) / 1000
+    averagekgsaved = Profile.objects.all().aggregate(Avg('foodsaved'))
     averageco2saved = 5 * averagekgsaved
     averagedollarsaved = 1.5 * averagekgsaved
 
@@ -85,8 +80,6 @@ def make_recipe(request):
     weight = request.GET.get('weight', None)
     id = request.GET.get('id', None)
 
-    """
-    Waiting on DB deployment
     user = None
     if token is not None:
         user = Token.objects.get(key=token).user
@@ -109,9 +102,6 @@ def make_recipe(request):
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'error': 'User is not logged in/'})
-    """
-    return JsonResponse({'success': True})
-
 
 
 def get_results(request):
