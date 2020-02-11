@@ -5,6 +5,7 @@ from .mock_lists import getMockResponse, getMockResponseRecipes
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.db import IntegrityError
+from .models import Recipe
 import requests
 
 
@@ -54,13 +55,23 @@ def food_item_ac(request):
 def make_recipe(request):
     token = request.GET.get('auth', None)
     weight = request.GET.get('weight', None)
+    uri = request.GET.get('uri', None)
 
     user = None
     if token is not None:
         user = Token.objects.get(key=token).user
 
-    if user is not None and weight.isnumeric():
+    if user is not None and weight.isnumeric() and uri is not None and "_" in uri:
         user.profile.foodsaved = user.profile.foodsaved + int(weight)
+        api_reference = uri.split("_")[1]
+        count = len(Recipe.objects.filter(apireference=api_reference))
+        if count == 0:
+            recipe = Recipe()
+            recipe.apireference = api_reference
+            Recipe.objects.add(recipe)
+
+        user.profile.cooked.add()
+
         user.save()
 
         return JsonResponse({'success': True})

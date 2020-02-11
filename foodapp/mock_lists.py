@@ -1,5 +1,6 @@
 #https://api.edamam.com/api/food-database/parser?ingr=ban&app_id=fbd440e6&app_key=136f60c5db1a10c7dc8aab22aaccf545
 #https://api.edamam.com/search?q=orange,chicken&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=3&calories=591-722&health=alcohol-free
+
 class Object(object):
 
     def json(self):
