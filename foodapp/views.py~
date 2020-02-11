@@ -80,7 +80,7 @@ def make_recipe(request):
 
 
 def get_results(request):
-
+    
     ingredients = request.GET.get('ingredients', None)
     token = request.GET.get('auth', None)
     if token is not None:
@@ -93,19 +93,23 @@ def get_results(request):
     
     if r.status_code == 200:
         RecipeResult = r.json()
-        Input = ingredients.split(",")
-        
+        if ingredients.find("Box#")!=-1:
+            Inputs = getOzBox(name);
+        else:
+            Inputs = ingredients.split(",")
+                
         RecipeResult = RecipeResult["hits"]
         for hits in RecipeResult:
             Recipe = hits["recipe"]
             Ingredients = Recipe["ingredientLines"]
             Match = []
-            for Ing in Ingredients:
+            for I in Ingredients:
                 for i in Inputs:
-                    if I.find(i) != 0:
-                        match.append(i)
-            Recipe["match"] = Match
-        
+                    I = I.lower()
+                    i = i.lower()
+                    if I.find(i) != -1:
+                        Match.append(i.title())
+            Recipe["match"] = Match        
         #ordering function here
         return JsonResponse(RecipeResult)
     else:

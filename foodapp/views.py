@@ -80,7 +80,7 @@ def make_recipe(request):
 
 
 def get_results(request):
-
+    
     ingredients = request.GET.get('ingredients', None)
     token = request.GET.get('auth', None)
     if token is not None:
@@ -93,7 +93,10 @@ def get_results(request):
     
     if r.status_code == 200:
         RecipeResult = r.json()
-        Inputs = ingredients.split(",")
+        if ingredients.find("Box#")!=-1:
+            Inputs = getOzBox(name);
+        else:
+            Inputs = ingredients.split(",")
                 
         RecipeResult = RecipeResult["hits"]
         for hits in RecipeResult:
