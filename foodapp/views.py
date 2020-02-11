@@ -120,7 +120,7 @@ def get_results(request):
 
     ingredients = request.GET.get('q', None)
     preferences = request.GET.get('p', None)
-
+>>>>>>> 9168cbf517a05a97b574d830ca0f224d16fef303
     token = request.GET.get('auth', None)
 
     if token is not None:
@@ -132,11 +132,13 @@ def get_results(request):
     r = getMockResponseRecipes()
 
     if r.status_code == 200:
-
         json = r.json()
 
         if ingredients is not None:
-            Inputs = ingredients.split(",")
+            if ingredients.find("Box#")!=-1:
+                Inputs = getOzBox(name);
+            else:
+                Inputs = ingredients.split(",")
 
             #adds matched ingredients from query string
             RecipeResult = json["hits"]
