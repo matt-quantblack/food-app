@@ -44,6 +44,8 @@ def food_item_ac(request):
     return JsonResponse({'data': ingredients})
 
 def get_stats(request):
+    """
+    Waiting in datbase deployment
     token = request.GET.get('auth', None)
 
     if token is None:
@@ -53,12 +55,13 @@ def get_stats(request):
 
     if user is None:
         return JsonResponse({'error': 'user doesnt exist'})
+    """
 
-    kgsaved = user.profile.foodsaved / 1000
+    kgsaved = 5.2 #user.profile.foodsaved / 1000
     co2saved = 5 * kgsaved
     dollarsaved = 1.5 * kgsaved
 
-    averagekgsaved = Profile.objects.all().aggregate(Avg('foodsaved'))
+    averagekgsaved = 4.2#Profile.objects.all().aggregate(Avg('foodsaved')) / 1000
     averageco2saved = 5 * averagekgsaved
     averagedollarsaved = 1.5 * averagekgsaved
 
