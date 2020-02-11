@@ -1,4 +1,4 @@
-from mock_lists import mock_recipes
+from .mock_lists import mock_recipes
 
 userIngredients = mock_recipes.get("q").split(",")
 

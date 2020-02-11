@@ -12,6 +12,11 @@ class Profile(models.Model):
 
     cooked = models.ManyToManyField(Recipe)
 
+class Box(models.Model):
+    box_number = models.IntegerField(default=0)
+    ingredient = models.CharField(max_length=50)
+
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
