@@ -39,14 +39,15 @@ def leastNeededIngredient(ingred, recipes):
 
 
 def priorityIngredient(p_ingred, recipes):
-    findSimilarIngred(p_ingred, recipes, 1)
+    findSimilarIngred(p_ingred, recipes, 5)
 
 def getOrderedRecipes(recipes):
     new_ls = [] #stores list of ordered recipes
 
     for key in sorted(dic.items(), key=lambda item: item[1]): #loops through dic sorted from small to big
-        new_ls.append(recipes.get("hits")[key[0]].get("recipe").get("label")) #add recipe in order
-    return new_ls #return ordered recipes
+        new_ls.append(recipes.get("hits")[key[0]]) #add recipe in order
+    recipes["hits"] = new_ls
+    return recipes #return ordered recipes
 #
 # testing
 # ls1 = ["a", "b", "c", "d"]
@@ -55,10 +56,10 @@ def getOrderedRecipes(recipes):
 #        ["d", "e", "f"]]
 # ls3 = ["a"]
 #
-# initialiseDic(mock_recipes)
-# leastNeededIngredient(userIngredients, mock_recipes)
+initialiseDic(mock_recipes)
+leastNeededIngredient(userIngredients, mock_recipes)
 # print(dic)
-# print(getOrderedRecipes(mock_recipes))
+print(getOrderedRecipes(mock_recipes))
 #
 # print(leastNeededIngredient(ls1, ls2))
 # print(dic)
