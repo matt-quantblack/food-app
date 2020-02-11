@@ -153,10 +153,10 @@ def get_results(request):
 
             # orders list based on number of ingredients matched
 
-            #initialiseDic(json)
-            #leastNeededIngredient(ingredients, json)
-            #json["hits"] = getOrderedRecipes(json)
-            #print(json)
+            initialiseDic(json)
+            leastNeededIngredient(Inputs, json)
+            json = getOrderedRecipes(json)
+            print(json)
             return JsonResponse(json, safe=False)
         else:
             return JsonResponse({'error': 'No ingredients'})
