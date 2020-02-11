@@ -5,7 +5,9 @@ from .mock_lists import getMockResponse, getMockResponseRecipes
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.db import IntegrityError
-from .models import Recipe
+from .models import Recipe, Profile
+from .sorting import getOrderedRecipes, initialiseDic, leastNeededIngredient
+from django.db.models import Avg
 import requests
 
 
@@ -52,25 +54,59 @@ def food_item_ac(request):
     else:
         return JsonResponse({'error': 'could not make request'})
 
+def get_stats(request):
+    token = request.GET.get('auth', None)
+
+    if token is None:
+        return JsonResponse({'error': 'token missing'})
+
+    user = Token.objects.get(key=token).user
+
+    if user is None:
+        return JsonResponse({'error': 'user doesnt exist'})
+
+    kgsaved = user.profile.foodsaved / 1000
+    co2saved = 5 * kgsaved
+    dollarsaved = 1.5 * kgsaved
+
+    averagekgsaved = Profile.objects.all().aggregate(Avg('foodsaved'))
+    averageco2saved = 5 * averagekgsaved
+    averagedollarsaved = 1.5 * averagekgsaved
+
+    stats = {
+        'kgsaved': kgsaved,
+        'co2saved': co2saved,
+        'dollarsaved': dollarsaved,
+        'avg_kgsaved': averagekgsaved,
+        'avg_co2saved': averageco2saved,
+        'avgdollarsaved': averagedollarsaved
+    }
+
+    return JsonResponse(stats)
+
+
+
 def make_recipe(request):
     token = request.GET.get('auth', None)
     weight = request.GET.get('weight', None)
-    uri = request.GET.get('uri', None)
+    id = request.GET.get('id', None)
 
     user = None
     if token is not None:
         user = Token.objects.get(key=token).user
 
-    if user is not None and weight.isnumeric() and uri is not None and "_" in uri:
+    if user is not None and weight.isnumeric():
         user.profile.foodsaved = user.profile.foodsaved + int(weight)
-        api_reference = uri.split("_")[1]
-        count = len(Recipe.objects.filter(apireference=api_reference))
-        if count == 0:
-            recipe = Recipe()
-            recipe.apireference = api_reference
-            Recipe.objects.add(recipe)
 
-        user.profile.cooked.add()
+        if id is not None:
+            recipe = Recipe.objects.filter(apireference=id).first()
+            print(recipe)
+            if recipe is None:
+                recipe = Recipe()
+                recipe.apireference = id
+                recipe.save()
+
+            user.profile.cooked.add(recipe)
 
         user.save()
 
@@ -80,9 +116,13 @@ def make_recipe(request):
 
 
 def get_results(request):
-    
-    ingredients = request.GET.get('ingredients', None)
+
+
+    ingredients = request.GET.get('q', None)
+    preferences = request.GET.get('p', None)
+
     token = request.GET.get('auth', None)
+
     if token is not None:
         user = Token.objects.get(key=token).user
         #do stuff with user preferences here
@@ -90,28 +130,39 @@ def get_results(request):
     #r = requests.get('https://api.edamam.com/search?q='+ ingredients +'&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=3&calories=591-722&health=alcohol-free', params=request.GET)
 
     r = getMockResponseRecipes()
-    
+
     if r.status_code == 200:
-        RecipeResult = r.json()
-        if ingredients.find("Box#")!=-1:
-            Inputs = getOzBox(name);
-        else:
+
+        json = r.json()
+
+        if ingredients is not None:
             Inputs = ingredients.split(",")
-                
-        RecipeResult = RecipeResult["hits"]
-        for hits in RecipeResult:
-            Recipe = hits["recipe"]
-            Ingredients = Recipe["ingredientLines"]
-            Match = []
-            for I in Ingredients:
-                for i in Inputs:
-                    I = I.lower()
-                    i = i.lower()
-                    if I.find(i) != -1:
-                        Match.append(i.title())
-            Recipe["match"] = Match        
-        #ordering function here
-        return JsonResponse(RecipeResult)
+
+            #adds matched ingredients from query string
+            RecipeResult = json["hits"]
+            for hits in RecipeResult:
+                Recipe = hits["recipe"]
+                Ingredients = Recipe["ingredientLines"]
+                Match = []
+                for I in Ingredients:
+                    for i in Inputs:
+                        I = I.lower()
+                        i = i.lower()
+                        if I.find(i) != -1:
+                            Match.append(i.title())
+                Recipe["match"] = Match
+
+            json["hits"] = RecipeResult
+
+            # orders list based on number of ingredients matched
+
+            #initialiseDic(json)
+            #leastNeededIngredient(ingredients, json)
+            #json["hits"] = getOrderedRecipes(json)
+            #print(json)
+            return JsonResponse(json, safe=False)
+        else:
+            return JsonResponse({'error': 'No ingredients'})
     else:
         return JsonResponse({'error': 'could not make request'})
 
