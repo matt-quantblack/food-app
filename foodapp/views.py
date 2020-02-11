@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .mock_lists import getMockResponse, getMockResponseRecipes
+from .mock_lists import getMockResponse, getMockResponseRecipes, getOzBox, IngredientsList
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.db import IntegrityError
@@ -39,20 +39,9 @@ def food_item_ac(request):
 
     word = request.GET.get('q', None)
 
-    #r = requests.get('https://api.edamam.com/api/food-database/parser?ingr='+ word +'&app_id=fbd440e6&app_key=136f60c5db1a10c7dc8aab22aaccf545', params=request.GET)
+    ingredients = IngredientsList
 
-    r = getMockResponse()
-    json = r.json()
-    if r.status_code == 200:
-        ingredients = []
-        print(json["parsed"])
-        for i in json["parsed"]:
-            ingredients.append(i["food"]["label"])
-        for i in json["hints"]:
-            ingredients.append(i["food"]["label"])
-        return JsonResponse({'data': ingredients})
-    else:
-        return JsonResponse({'error': 'could not make request'})
+    return JsonResponse({'data': ingredients})
 
 def get_stats(request):
     token = request.GET.get('auth', None)
@@ -120,7 +109,7 @@ def get_results(request):
 
     ingredients = request.GET.get('q', None)
     preferences = request.GET.get('p', None)
->>>>>>> 9168cbf517a05a97b574d830ca0f224d16fef303
+
     token = request.GET.get('auth', None)
 
     if token is not None:
@@ -135,10 +124,11 @@ def get_results(request):
         json = r.json()
 
         if ingredients is not None:
-            if ingredients.find("Box#")!=-1:
-                Inputs = getOzBox(name);
+            if ingredients.find("OzBox ") !=-1:
+                Inputs = getOzBox(ingredients)
             else:
                 Inputs = ingredients.split(",")
+
 
             #adds matched ingredients from query string
             RecipeResult = json["hits"]
@@ -161,7 +151,7 @@ def get_results(request):
             initialiseDic(json)
             leastNeededIngredient(Inputs, json)
             json = getOrderedRecipes(json)
-            print(json)
+
             return JsonResponse(json, safe=False)
         else:
             return JsonResponse({'error': 'No ingredients'})

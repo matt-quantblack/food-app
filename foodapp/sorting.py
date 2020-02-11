@@ -16,7 +16,7 @@ def findSimilarIngred(ingred, recipes, weight):
     for i in range(len(recipes.get("hits"))): # loops through each recipes
         amountOfRecipeIngred = len(recipes.get("hits")[i].get("recipe").get("ingredientLines"))
         ingredientInRecipe = [False]*amountOfRecipeIngred
-        print(amountOfRecipeIngred)
+        #print(amountOfRecipeIngred)
 
         for n in range(len(recipes.get("hits")[i].get("recipe").get("ingredientLines"))): #loops through each recipe ingredient
 
