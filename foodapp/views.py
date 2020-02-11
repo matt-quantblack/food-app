@@ -15,6 +15,8 @@ def create_user(request):
     email = request.GET.get('email', None)
     password = request.GET.get('password', None)
 
+    """
+    Waiting on DB deployment
     try:
         user = User.objects.create_user(
             username=email,
@@ -30,7 +32,7 @@ def create_user(request):
         user.save()
     except (Exception, IntegrityError) as e:
         return JsonResponse({'error': 'could not create user: {}'.format(e)})
-
+    """
     return JsonResponse({'success': True})
 
 
@@ -83,6 +85,8 @@ def make_recipe(request):
     weight = request.GET.get('weight', None)
     id = request.GET.get('id', None)
 
+    """
+    Waiting on DB deployment
     user = None
     if token is not None:
         user = Token.objects.get(key=token).user
@@ -105,6 +109,9 @@ def make_recipe(request):
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'error': 'User is not logged in/'})
+    """
+    return JsonResponse({'success': True})
+
 
 
 def get_results(request):
