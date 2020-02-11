@@ -1,8 +1,36 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .mock_lists import mock_recipes, mock_ac, getMockResponse, getMockResponseRecipes
+from .mock_lists import getMockResponse, getMockResponseRecipes
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from django.db import IntegrityError
 import requests
+
+
+def create_user(request):
+    email = request.GET.get('email', None)
+    password = request.GET.get('password', None)
+
+    try:
+        user = User.objects.create_user(
+            username=email,
+            password=password,
+            email=email
+        )
+    except ValueError as e:
+        return JsonResponse({'error': 'Could not create user, invalid value: {}'.format(e)})
+    except IntegrityError:
+        return JsonResponse({'error': 'User already exists.'})
+
+    try:
+        user.save()
+    except (Exception, IntegrityError) as e:
+        return JsonResponse({'error': 'could not create user: {}'.format(e)})
+
+    return JsonResponse({'success': True})
+
+
 
 def food_item_ac(request):
 
@@ -23,11 +51,32 @@ def food_item_ac(request):
     else:
         return JsonResponse({'error': 'could not make request'})
 
+def make_recipe(request):
+    token = request.GET.get('auth', None)
+    weight = request.GET.get('weight', None)
+
+    user = None
+    if token is not None:
+        user = Token.objects.get(key=token).user
+
+    if user is not None and weight.isnumeric():
+        user.profile.foodsaved = user.profile.foodsaved + int(weight)
+        user.save()
+
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'error': 'User is not logged in/'})
+
+
 def get_results(request):
+
     ingredients = request.GET.get('ingredients', None)
+    token = request.GET.get('auth', None)
+    if token is not None:
+        user = Token.objects.get(key=token).user
+        #do stuff with user preferences here
 
-
-    # r = requests.get('https://api.edamam.com/search?q='+ ingredients +'&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=3&calories=591-722&health=alcohol-free', params=request.GET)
+    #r = requests.get('https://api.edamam.com/search?q='+ ingredients +'&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=3&calories=591-722&health=alcohol-free', params=request.GET)
 
     r = getMockResponseRecipes()
     json = r.json()
