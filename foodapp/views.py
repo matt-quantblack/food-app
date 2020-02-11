@@ -125,13 +125,25 @@ def get_results(request):
     #r = requests.get('https://api.edamam.com/search?q='+ ingredients +'&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=3&calories=591-722&health=alcohol-free', params=request.GET)
 
     r = getMockResponseRecipes()
-    json = r.json()
-
-
-    #ordering function here
 
     if r.status_code == 200:
-        return JsonResponse(json)
+        RecipeResult = r.json()
+        Inputs = ingredients.split(",")
+                
+        RecipeResult = RecipeResult["hits"]
+        for hits in RecipeResult:
+            Recipe = hits["recipe"]
+            Ingredients = Recipe["ingredientLines"]
+            Match = []
+            for I in Ingredients:
+                for i in Inputs:
+                    I = I.lower()
+                    i = i.lower()
+                    if I.find(i) != -1:
+                        Match.append(i.title())
+            Recipe["match"] = Match        
+        #ordering function here
+        return JsonResponse(RecipeResult)
     else:
         return JsonResponse({'error': 'could not make request'})
 
