@@ -56,7 +56,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+#CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
+    'localhost:3000/Dashboard',
+)
 
 SESSION_COOKIE_SAMESITE = None
 CSRF_TRUSTED_ORIGINS = [

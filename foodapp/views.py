@@ -39,7 +39,7 @@ def food_item_ac(request):
 
     word = request.GET.get('q', None)
 
-    if word is None or word == "":
+    if word is None:
         ingredients = []
     else:
         ingredients = [i for i in IngredientsList if i.lower().startswith(word.lower())]
