@@ -59,10 +59,11 @@ def get_stats(request):
         return JsonResponse({'error': 'user doesnt exist'})
 
     history = []
+
     for item in user.profile.cooked.all():
         history.append({'id': item.apireference,
                        'name': item.name,
-                       'imageurl': item.iurl,
+                        'imageurl': item.iurl,
                         'weight': item.weight})
 
     kgsaved = user.profile.foodsaved / 1000
@@ -75,17 +76,17 @@ def get_stats(request):
     averagedollarsaved = 1.5 * averagekgsaved
 
     badges = []
-    next_badge = {'5kg': ((5-kgsaved) * 100 /5)}
+    next_badge = {'5kg': (5-kgsaved) * 100 /5}
 
     if kgsaved > 5:
         badges.append("5kg")
-        next_badge = {'10kg', ((10-kgsaved) * 100 /5)}
+        next_badge = {'10kg': (10-kgsaved) * 100 /5}
     if kgsaved > 10:
         badges.append("10kg")
-        next_badge = {'15kg', ((15 - kgsaved) * 100 / 5)}
+        next_badge = {'15kg': (15 - kgsaved) * 100 / 5}
     if kgsaved > 15:
         badges.append("15kg")
-        next_badge = {'20kg', ((20 - kgsaved) * 100 / 5)}
+        next_badge = {'20kg': (20 - kgsaved) * 100 / 5}
 
     stats = {
         'kgsaved': kgsaved,
@@ -114,7 +115,13 @@ def make_recipe(request):
     if token is not None:
         user = Token.objects.get(key=token).user
 
-    if user is not None and weight.isnumeric():
+    try:
+        weight = float(weight)
+        weight = int(weight)
+    except ValueError:
+        return JsonResponse({'error': 'Weight not a valid number'})
+
+    if user is not None:
         user.profile.foodsaved = user.profile.foodsaved + int(weight)
 
         if id is not None:
