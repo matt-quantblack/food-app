@@ -68,7 +68,7 @@ def get_stats(request):
     averagedollarsaved = 1.5 * averagekgsaved
 
     badges = []
-    next_badge = {'5kg', '100'}
+    next_badge = {'5kg': '100'}
 
     if kgsaved > 5:
         badges.append("5kg")
