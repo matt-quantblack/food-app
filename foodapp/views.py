@@ -15,8 +15,6 @@ def create_user(request):
     email = request.GET.get('email', None)
     password = request.GET.get('password', None)
 
-    """
-    Waiting on DB deployment
     try:
         user = User.objects.create_user(
             username=email,
@@ -32,7 +30,7 @@ def create_user(request):
         user.save()
     except (Exception, IntegrityError) as e:
         return JsonResponse({'error': 'could not create user: {}'.format(e)})
-    """
+
     return JsonResponse({'success': True})
 
 
