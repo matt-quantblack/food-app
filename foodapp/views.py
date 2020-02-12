@@ -62,7 +62,8 @@ def get_stats(request):
     for item in user.profile.cooked.all():
         history.append({'id': item.apireference,
                        'name': item.name,
-                       'imageurl': item.iurl})
+                       'imageurl': item.iurl,
+                        'weight': item.weight})
 
     kgsaved = user.profile.foodsaved / 1000
     co2saved = 5 * kgsaved
@@ -124,6 +125,7 @@ def make_recipe(request):
                 recipe.apireference = id
                 recipe.name = name
                 recipe.iurl = imageurl
+                recipe.weight = int(weight)
                 recipe.save()
 
             user.profile.cooked.add(recipe)
@@ -160,7 +162,7 @@ def get_results(request):
         json = r.json()
 
         if ingredients is not None:
-            
+
             if ingredients.find("OzBox ") !=-1:
                 Inputs = getOzBox(ingredients)
             else:
