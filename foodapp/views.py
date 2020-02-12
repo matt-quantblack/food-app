@@ -78,9 +78,12 @@ def get_stats(request):
     badges = {'recycle': int(kgsaved / 5),
               'co2': int(co2saved / 15),
               'dollar': int(dollarsaved / 7.5)}
-    next_badge = {'recycle': ((float(kgsaved) / 5) - badges['recycle']) * 100,
-              'co2': ((float(co2saved) / 15) - badges['co2']) * 100,
-              'dollar': ((float(dollarsaved) / 7.5) - badges['dollar']) * 100}
+    nextkg = { 'value': ((float(kgsaved) / 5) - badges['recycle']) * 100, 'next': (badges['recycle']+1)}
+    nextc02 =  {'value': ((float(co2saved) / 15) - badges['co2']) * 100, 'next':  (badges['co2']+1)}
+    nextdollar = {'value': ((float(dollarsaved) / 7.5) - badges['dollar']) * 100, 'next':  (badges['dollar']+1)}
+
+    next_badge = {'recycle': nextkg, 'co2': nextc02, 'dollar': nextdollar}
+
 
 
     stats = {
