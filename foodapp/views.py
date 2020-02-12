@@ -58,6 +58,12 @@ def get_stats(request):
     if user is None:
         return JsonResponse({'error': 'user doesnt exist'})
 
+    history = []
+    for item in user.profile.cooked.all():
+        history.append({'id': item.apireference,
+                       'name': item.name,
+                       'imageurl': item.iurl})
+
     kgsaved = user.profile.foodsaved / 1000
     co2saved = 5 * kgsaved
     dollarsaved = 1.5 * kgsaved
@@ -88,7 +94,8 @@ def get_stats(request):
         'avg_co2saved': averageco2saved,
         'avgdollarsaved': averagedollarsaved,
         'badges': badges,
-        'next_badges': next_badge
+        'next_badges': next_badge,
+        'history': history
     }
 
     return JsonResponse(stats)
