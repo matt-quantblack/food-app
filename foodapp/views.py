@@ -146,7 +146,10 @@ def get_results(request):
     uri = 'https://api.edamam.com/search?q='+ ingredients +'&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=100'+preferences
 
     if token is not None:
-        user = Token.objects.get(key=token).user
+        try:
+            user = Token.objects.get(key=token).user
+        except:
+            print("No user")
         #do stuff with user preferences here
 
     #r = requests.get(uri, params=request.GET)
@@ -157,11 +160,13 @@ def get_results(request):
         json = r.json()
 
         if ingredients is not None:
+            
             if ingredients.find("OzBox ") !=-1:
                 Inputs = getOzBox(ingredients)
             else:
                 Inputs = ingredients.split(",")
 
+            print(Inputs)
 
             #adds matched ingredients from query string
             RecipeResult = json["hits"]
