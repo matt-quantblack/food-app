@@ -67,6 +67,19 @@ def get_stats(request):
     averageco2saved = 5 * averagekgsaved
     averagedollarsaved = 1.5 * averagekgsaved
 
+    badges = []
+    next_badge = {'5kg', '100'}
+
+    if kgsaved > 5:
+        badges.append("5kg")
+        next_badge = {'10kg', (10-kgsaved)/5}
+    if kgsaved > 10:
+        badges.append("10kg")
+        next_badge = {'15kg', (15 - kgsaved) / 5}
+    if kgsaved > 15:
+        badges.append("15kg")
+        next_badge = {'20kg', (20 - kgsaved) / 5}
+
     stats = {
         'kgsaved': kgsaved,
         'co2saved': co2saved,
@@ -74,10 +87,8 @@ def get_stats(request):
         'avg_kgsaved': averagekgsaved,
         'avg_co2saved': averageco2saved,
         'avgdollarsaved': averagedollarsaved,
-        'badges': ['Power Saver', '5kg'],
-        'next_badges': {
-            '10kg': '50'
-        }
+        'badges': badges,
+        'next_badges': next_badge
     }
 
     return JsonResponse(stats)
