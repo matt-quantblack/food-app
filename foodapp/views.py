@@ -44,7 +44,7 @@ def food_item_ac(request):
     if word is None:
         ingredients = ""
     else:
-        ingredients = [i for i in IngredientsList if i.startswith(word)]
+        ingredients = [i for i in IngredientsList if i.lower().startswith(word.lower())]
 
     return JsonResponse({'data': ingredients})
 
@@ -159,7 +159,7 @@ def get_results(request):
                         i = i.lower()
                         if I.find(i) != -1:
                             Match.append(i.title())
-                Recipe["match"] = Match
+                Recipe["match"] = list(set(Match))
 
             json["hits"] = RecipeResult
 
