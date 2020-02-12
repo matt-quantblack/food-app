@@ -67,26 +67,21 @@ def get_stats(request):
                         'weight': item.weight})
 
     kgsaved = user.profile.foodsaved / 1000
-    co2saved = 5 * kgsaved
-    dollarsaved = 1.5 * kgsaved
+    co2saved = user.profile.co2saved / 1000
+    dollarsaved = user.profile.dollarsaved
 
     av = Profile.objects.all().aggregate(Avg('foodsaved'))
     averagekgsaved = av['foodsaved__avg'] / 1000
     averageco2saved = 5 * averagekgsaved
     averagedollarsaved = 1.5 * averagekgsaved
 
-    badges = []
-    next_badge = {'5kg': (5-kgsaved) * 100 /5}
+    badges = {'recycle': int(kgsaved / 5),
+              'co2': int(co2saved / 15),
+              'dollar': int(dollarsaved / 7.5)}
+    next_badge = {'recycle': ((float(kgsaved) / 5) - badges['recycle']) * 100,
+              'co2': ((float(co2saved) / 15) - badges['co2']) * 100,
+              'dollar': ((float(dollarsaved) / 7.5) - badges['dollar']) * 100}
 
-    if kgsaved > 5:
-        badges.append("5kg")
-        next_badge = {'10kg': (10-kgsaved) * 100 /5}
-    if kgsaved > 10:
-        badges.append("10kg")
-        next_badge = {'15kg': (15 - kgsaved) * 100 / 5}
-    if kgsaved > 15:
-        badges.append("15kg")
-        next_badge = {'20kg': (20 - kgsaved) * 100 / 5}
 
     stats = {
         'kgsaved': kgsaved,
@@ -111,6 +106,8 @@ def make_recipe(request):
     name = request.GET.get('name', None)
     imageurl = request.GET.get('imageurl', None)
 
+
+
     user = None
     if token is not None:
         user = Token.objects.get(key=token).user
@@ -121,8 +118,13 @@ def make_recipe(request):
     except ValueError:
         return JsonResponse({'error': 'Weight not a valid number'})
 
+    co2 = weight * 5
+    dollar = weight * 1.5 / 1000
+
     if user is not None:
         user.profile.foodsaved = user.profile.foodsaved + int(weight)
+        user.profile.co2saved = user.profile.co2saved + int(co2)
+        user.profile.dollarsaved = user.profile.dollarsaved + int(dollar)
 
         if id is not None:
             recipe = Recipe.objects.filter(apireference=id).first()

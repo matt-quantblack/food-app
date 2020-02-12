@@ -12,6 +12,8 @@ class Recipe(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     foodsaved = models.IntegerField(default=0)
+    co2saved = models.IntegerField(default=0)
+    dollarsaved = models.IntegerField(default=0)
 
     cooked = models.ManyToManyField(Recipe)
 
