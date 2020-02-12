@@ -162,8 +162,7 @@ def get_results(request):
         json = r.json()
 
         if ingredients is not None:
-
-            if ingredients.find("OzBox ") !=-1:
+            if ingredients.lower().find("ozbox ") !=-1:
                 Inputs = getOzBox(ingredients)
             else:
                 Inputs = ingredients.split(",")
