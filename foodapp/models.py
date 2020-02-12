@@ -5,6 +5,8 @@ from django.dispatch import receiver
 
 class Recipe(models.Model):
     apireference = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
+    iurl = models.CharField(max_length=150)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

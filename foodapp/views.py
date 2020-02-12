@@ -99,6 +99,8 @@ def make_recipe(request):
     token = request.GET.get('auth', None)
     weight = request.GET.get('weight', None)
     id = request.GET.get('id', None)
+    name = request.GET.get('name', None)
+    imageurl = request.GET.get('imageurl', None)
 
     user = None
     if token is not None:
@@ -109,10 +111,12 @@ def make_recipe(request):
 
         if id is not None:
             recipe = Recipe.objects.filter(apireference=id).first()
-            print(recipe)
+
             if recipe is None:
                 recipe = Recipe()
                 recipe.apireference = id
+                recipe.name = name
+                recipe.iurl = imageurl
                 recipe.save()
 
             user.profile.cooked.add(recipe)
