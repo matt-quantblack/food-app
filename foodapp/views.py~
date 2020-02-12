@@ -41,7 +41,7 @@ def food_item_ac(request):
 
     if word is None:
         ingredients = ""
-    else
+    else:
         ingredients = [i for i in IngredientsList if i.startswith(word)]
 
     return JsonResponse({'data': ingredients})
