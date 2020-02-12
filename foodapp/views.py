@@ -47,8 +47,7 @@ def food_item_ac(request):
     return JsonResponse({'data': ingredients})
 
 def get_stats(request):
-    """
-    Waiting in datbase deployment
+
     token = request.GET.get('auth', None)
 
     if token is None:
@@ -58,7 +57,6 @@ def get_stats(request):
 
     if user is None:
         return JsonResponse({'error': 'user doesnt exist'})
-    """
 
     kgsaved = 7.5 #user.profile.foodsaved / 1000
     co2saved = 5 * kgsaved
@@ -90,8 +88,6 @@ def make_recipe(request):
     weight = request.GET.get('weight', None)
     id = request.GET.get('id', None)
 
-    """
-    Waiting on DB deployment
     user = None
     if token is not None:
         user = Token.objects.get(key=token).user
@@ -114,13 +110,8 @@ def make_recipe(request):
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'error': 'User is not logged in/'})
-    """
-    return JsonResponse({'success': True})
-
-
 
 def get_results(request):
-
 
     ingredients = request.GET.get('q', None)
     preferences = request.GET.get('p', "")
