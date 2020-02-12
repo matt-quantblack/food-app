@@ -62,7 +62,7 @@ def get_stats(request):
         return JsonResponse({'error': 'user doesnt exist'})
     """
 
-    kgsaved = 5.2 #user.profile.foodsaved / 1000
+    kgsaved = 7.5 #user.profile.foodsaved / 1000
     co2saved = 5 * kgsaved
     dollarsaved = 1.5 * kgsaved
 
@@ -76,7 +76,11 @@ def get_stats(request):
         'dollarsaved': dollarsaved,
         'avg_kgsaved': averagekgsaved,
         'avg_co2saved': averageco2saved,
-        'avgdollarsaved': averagedollarsaved
+        'avgdollarsaved': averagedollarsaved,
+        'badges': ['Power Saver', '5kg'],
+        'next_badges': {
+            '10kg': '50'
+        }
     }
 
     return JsonResponse(stats)
@@ -160,6 +164,9 @@ def get_results(request):
                         if I.find(i) != -1:
                             Match.append(i.title())
                 Recipe["match"] = list(set(Match))
+                Recipe["method"] = ["1. Preheat oven to 200°c. Combine ricotta, grated parmesan, egg, finely grated lemon rind, thyme leaves and pinch dried chilli flakes in a bowl. Season.",
+                                    "2. Spoon into 4 x 10cm heart-shaped pans. Brush tops with olive oil. Bake for 20 minutes or until golden and set.",
+                                    "3. Serve with toast and tomato medley and basil."]
 
             json["hits"] = RecipeResult
 
