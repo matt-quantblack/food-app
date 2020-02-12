@@ -27,7 +27,7 @@ SECRET_KEY = "CHANGE_ME!!!! (P.S. the SECRET_KEY environment variable will be us
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sustainable-food-app.herokuapp.com']
+ALLOWED_HOSTS = ['sustainable-food-app.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -64,7 +64,7 @@ CORS_ALLOW_METHODS = [
 ]
 SESSION_COOKIE_SAMESITE = None
 CSRF_TRUSTED_ORIGINS = [
-    '127.0.0.1',
+    'localhost',
     'sustainable-food-app.herokuapp.com'
 ]
 
