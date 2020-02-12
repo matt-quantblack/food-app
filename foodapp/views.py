@@ -98,7 +98,9 @@ def get_stats(request):
         'history': history
     }
 
-    return JsonResponse(stats)
+    response = JsonResponse(stats)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
 
 
 
