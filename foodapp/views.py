@@ -58,11 +58,11 @@ def get_stats(request):
     if user is None:
         return JsonResponse({'error': 'user doesnt exist'})
 
-    kgsaved = 7.5 #user.profile.foodsaved / 1000
+    kgsaved = user.profile.foodsaved / 1000
     co2saved = 5 * kgsaved
     dollarsaved = 1.5 * kgsaved
 
-    averagekgsaved = 4.2#Profile.objects.all().aggregate(Avg('foodsaved')) / 1000
+    averagekgsaved = Profile.objects.all().aggregate(Avg('foodsaved')) / 1000
     averageco2saved = 5 * averagekgsaved
     averagedollarsaved = 1.5 * averagekgsaved
 
