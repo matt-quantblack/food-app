@@ -62,7 +62,8 @@ def get_stats(request):
     co2saved = 5 * kgsaved
     dollarsaved = 1.5 * kgsaved
 
-    averagekgsaved = 6.8#Profile.objects.all().aggregate(Avg('foodsaved')) / 1000
+    av = Profile.objects.all().aggregate(Avg('foodsaved'))
+    averagekgsaved = av['foodsaved__avg'] / 1000
     averageco2saved = 5 * averagekgsaved
     averagedollarsaved = 1.5 * averagekgsaved
 
