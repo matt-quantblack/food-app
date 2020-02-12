@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['sustainable-food-app.herokuapp.com', 'localhost']
 
-
+CSRF_COOKIE_NAME = "csrftoken"
 # Application definition
 
 INSTALLED_APPS = [
