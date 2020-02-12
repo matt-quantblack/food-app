@@ -120,10 +120,11 @@ def get_results(request):
     ingredients = request.GET.get('q', None)
     preferences = request.GET.get('p', "")
     if preferences != "":
-        preference = preference.replace(",","&health=")
-        preference = "&health=" + preference
+        preferences = preferences.replace(",","&health=")
+        preferences = "&health=" + preferences
+
     token = request.GET.get('auth', None)
-    uri = 'https://api.edamam.com/search?q='+ ingredients +'&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=100'+preference
+    uri = 'https://api.edamam.com/search?q='+ ingredients +'&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=100'+preferences
 
     if token is not None:
         user = Token.objects.get(key=token).user
