@@ -8,6 +8,8 @@ from django.db import IntegrityError
 from .models import Recipe, Profile
 from .sorting import getOrderedRecipes, initialiseDic, leastNeededIngredient
 from django.db.models import Avg
+
+from .recommender import train, get_pred
 import requests
 
 
@@ -207,6 +209,10 @@ def get_results(request):
             initialiseDic(json)
             leastNeededIngredient(Inputs, json)
             json = getOrderedRecipes(json)
+
+            algo = train()
+            pred = get_pred(algo, 'E', 2)
+            print(pred)
 
             return JsonResponse(json, safe=False)
         else:

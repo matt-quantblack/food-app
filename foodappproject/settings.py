@@ -27,7 +27,7 @@ SECRET_KEY = "CHANGE_ME!!!! (P.S. the SECRET_KEY environment variable will be us
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sustainable-food-app.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['sustainable-food-app.herokuapp.com']
 
 CSRF_COOKIE_NAME = "csrftoken"
 # Application definition
@@ -57,9 +57,6 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
-#CORS_ORIGIN_WHITELIST = (
-#    'localhost:3000',
-#)
 
 SESSION_COOKIE_SAMESITE = None
 #CSRF_TRUSTED_ORIGINS = [
@@ -92,21 +89,12 @@ WSGI_APPLICATION = "foodappproject.wsgi.application"
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 
-
-"""
-DATABASES = {
-    "default": {
-        "ENGINE" : "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3")
-    }
-}"""
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'd1f8hfa0jor3gh',
         'USER': 'alupjshyuphkgi',
-        'PASSWORD': os.environ['DB_PASSWORD'],
+        'PASSWORD': "3cc1c03c44c7ffec906cc2b7caaf782860a4b1f5f578ee8a3bd3a9555e9bec51",#os.environ['DB_PASSWORD'],
         'HOST': 'ec2-3-213-192-58.compute-1.amazonaws.com',
         'PORT': '5432'
     }
