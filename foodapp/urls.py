@@ -9,5 +9,6 @@ urlpatterns = [
     path('api/make_recipe', views.make_recipe, name='make_recipe'),
     path('api/token-auth/', obtain_auth_token, name='token_auth'),
     path('api/create_user/', views.create_user, name='create_user'),
+    path('api/get_stats/', views.get_stats, name='get_stats'),
     path('admin/', admin.site.urls),
 ]

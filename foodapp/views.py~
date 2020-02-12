@@ -42,11 +42,12 @@ def food_item_ac(request):
     if word is None:
         ingredients = ""
     else:
-        ingredients = [i for i in IngredientsList if i.startswith(word)]
+        ingredients = [i for i in IngredientsList if i.lower().startswith(word.lower())]
 
     return JsonResponse({'data': ingredients})
 
 def get_stats(request):
+
     token = request.GET.get('auth', None)
 
     if token is None:
@@ -57,13 +58,33 @@ def get_stats(request):
     if user is None:
         return JsonResponse({'error': 'user doesnt exist'})
 
+    history = []
+    for item in user.profile.cooked.all():
+        history.append({'id': item.apireference,
+                       'name': item.name,
+                       'imageurl': item.iurl})
+
     kgsaved = user.profile.foodsaved / 1000
     co2saved = 5 * kgsaved
     dollarsaved = 1.5 * kgsaved
 
-    averagekgsaved = Profile.objects.all().aggregate(Avg('foodsaved'))
+    av = Profile.objects.all().aggregate(Avg('foodsaved'))
+    averagekgsaved = av['foodsaved__avg'] / 1000
     averageco2saved = 5 * averagekgsaved
     averagedollarsaved = 1.5 * averagekgsaved
+
+    badges = []
+    next_badge = {'5kg': ((5-kgsaved) * 100 /5)}
+
+    if kgsaved > 5:
+        badges.append("5kg")
+        next_badge = {'10kg', ((10-kgsaved) * 100 /5)}
+    if kgsaved > 10:
+        badges.append("10kg")
+        next_badge = {'15kg', ((15 - kgsaved) * 100 / 5)}
+    if kgsaved > 15:
+        badges.append("15kg")
+        next_badge = {'20kg', ((20 - kgsaved) * 100 / 5)}
 
     stats = {
         'kgsaved': kgsaved,
@@ -71,7 +92,10 @@ def get_stats(request):
         'dollarsaved': dollarsaved,
         'avg_kgsaved': averagekgsaved,
         'avg_co2saved': averageco2saved,
-        'avgdollarsaved': averagedollarsaved
+        'avgdollarsaved': averagedollarsaved,
+        'badges': badges,
+        'next_badges': next_badge,
+        'history': history
     }
 
     return JsonResponse(stats)
@@ -82,6 +106,8 @@ def make_recipe(request):
     token = request.GET.get('auth', None)
     weight = request.GET.get('weight', None)
     id = request.GET.get('id', None)
+    name = request.GET.get('name', None)
+    imageurl = request.GET.get('imageurl', None)
 
     user = None
     if token is not None:
@@ -92,10 +118,12 @@ def make_recipe(request):
 
         if id is not None:
             recipe = Recipe.objects.filter(apireference=id).first()
-            print(recipe)
+
             if recipe is None:
                 recipe = Recipe()
                 recipe.apireference = id
+                recipe.name = name
+                recipe.iurl = imageurl
                 recipe.save()
 
             user.profile.cooked.add(recipe)
@@ -106,20 +134,22 @@ def make_recipe(request):
     else:
         return JsonResponse({'error': 'User is not logged in/'})
 
-
 def get_results(request):
-
 
     ingredients = request.GET.get('q', None)
     preferences = request.GET.get('p', "")
     if preferences != "":
-        preference = preference.replace(",","&health=")
-        preference = "&health=" + preference
+        preferences = preferences.replace(",","&health=")
+        preferences = "&health=" + preferences
+
     token = request.GET.get('auth', None)
-    uri = 'https://api.edamam.com/search?q='+ ingredients +'&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=100'+preference
+    uri = 'https://api.edamam.com/search?q='+ ingredients +'&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=100'+preferences
 
     if token is not None:
-        user = Token.objects.get(key=token).user
+        try:
+            user = Token.objects.get(key=token).user
+        except:
+            print("No user")
         #do stuff with user preferences here
 
     #r = requests.get(uri, params=request.GET)
@@ -130,11 +160,13 @@ def get_results(request):
         json = r.json()
 
         if ingredients is not None:
+            
             if ingredients.find("OzBox ") !=-1:
                 Inputs = getOzBox(ingredients)
             else:
                 Inputs = ingredients.split(",")
 
+            print(Inputs)
 
             #adds matched ingredients from query string
             RecipeResult = json["hits"]
@@ -148,7 +180,10 @@ def get_results(request):
                         i = i.lower()
                         if I.find(i) != -1:
                             Match.append(i.title())
-                Recipe["match"] = Match
+                Recipe["match"] = list(set(Match))
+                Recipe["method"] = ["1. Preheat oven to 200°c. Combine ricotta, grated parmesan, egg, finely grated lemon rind, thyme leaves and pinch dried chilli flakes in a bowl. Season.",
+                                    "2. Spoon into 4 x 10cm heart-shaped pans. Brush tops with olive oil. Bake for 20 minutes or until golden and set.",
+                                    "3. Serve with toast and tomato medley and basil."]
 
             json["hits"] = RecipeResult
 
