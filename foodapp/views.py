@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .mock_lists import getMockResponse, getMockResponseRecipes, getOzBox, IngredientsList
+from .mock_lists import getMockResponse, getMockResponseRecipes, getOzBox, IngredientsList, BoxDict
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.db import IntegrityError
@@ -46,7 +46,8 @@ def food_item_ac(request):
     else:
         ingredients = [i for i in IngredientsList if i.lower().startswith(word.lower())]
 
-    return JsonResponse({'data': ingredients})
+    return JsonResponse({'data': ingredients,
+                         'boxes': BoxDict})
 
 def get_stats(request):
 
