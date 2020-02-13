@@ -316,7 +316,7 @@ mock_recipes = {
         "text" : "2 bags Trader Joe's Frozen Jasmine Rice",
         "weight" : 114.0
       } ],
-      "substitute": {'sesame seeds, for sprinkling': ['1 tbsp = 1 tbsp finely chopped blanched almonds']},
+      "substitute": {"sesame seeds, for sprinkling": ["1 tbsp = 1 tbsp finely chopped blanched almonds"]},
       "calories" : 2388.4,
       "totalWeight" : 1034.0,
       "totalTime" : 35.0,
@@ -915,7 +915,7 @@ mock_recipes = {
         "text" : "1/2 cup sesame seeds",
         "weight" : 72.0
       } ],
-      "substitute": {'2 tbsp soy sauce': ['1 tbsp = 1 tbsp teriyaki Sauce', '1 tbsp = 3/4 tsp kosher salt + 1/2 tsp granulated sugar dissolved in 1 tbsp hot water, teriyaki sauce', '1/2 cup = 1/4 cup Worcestershire sauce mixed with 1 tbsp water'], '1 teaspoon asian sesame oil': ['1 tsp = 2 tsp crushed and toasted sesame seeds + 1 tsp peanut oil'], '1 cup breadcrumbs': ['1 cup = 1 cup crushed cornflakes', '1 cup = 1 cup ground oats', '1 cup = 1 cup crushed dry stuffing mix', '1 cup = 1 cup matzo meal', '1 cup = 1 cup cracker crumbs', '1 cup = 1 cup crushed potato chips', '1 cup = 1 cup crushed pretzels', '1 cup = 1 cup crushed tortilla chips'], '2 tbsp butter, melted': ['1 cup = 7/8 cup shortening and 1/2 tsp salt', '1 cup = 7/8 cup vegetable oil + 1/2 tsp salt', '1/2 cup = 1/4 cup buttermilk + 1/4 cup unsweetened applesauce', '1 cup = 1 cup margarine'], '1/2 cup sesame seeds': ['1 tbsp = 1 tbsp finely chopped blanched almonds']},
+      "substitute": {"2 tbsp soy sauce": ["1 tbsp = 1 tbsp teriyaki Sauce", "1 tbsp = 3/4 tsp kosher salt + 1/2 tsp granulated sugar dissolved in 1 tbsp hot water, teriyaki sauce", "1/2 cup = 1/4 cup Worcestershire sauce mixed with 1 tbsp water"], "1 teaspoon asian sesame oil": ["1 tsp = 2 tsp crushed and toasted sesame seeds + 1 tsp peanut oil"], "1 cup breadcrumbs": ["1 cup = 1 cup crushed cornflakes", "1 cup = 1 cup ground oats", "1 cup = 1 cup crushed dry stuffing mix", "1 cup = 1 cup matzo meal", "1 cup = 1 cup cracker crumbs", "1 cup = 1 cup crushed potato chips", "1 cup = 1 cup crushed pretzels", "1 cup = 1 cup crushed tortilla chips"], "2 tbsp butter, melted": ["1 cup = 7/8 cup shortening and 1/2 tsp salt", "1 cup = 7/8 cup vegetable oil + 1/2 tsp salt", "1/2 cup = 1/4 cup buttermilk + 1/4 cup unsweetened applesauce", "1 cup = 1 cup margarine"], "1/2 cup sesame seeds": ["1 tbsp = 1 tbsp finely chopped blanched almonds"]},
       "calories" : 2572.1811215000002,
       "totalWeight" : 1297.4765003118514,
       "totalTime" : 0.0,
@@ -1539,7 +1539,7 @@ mock_recipes = {
         "text" : "3/4 tsp. kosher salt",
         "weight" : 3.6406250001846567
       } ],
-      "substitute": {'1 tbs. soy sauce': ['1 tbsp = 1 tbsp teriyaki Sauce', '1 tbsp = 3/4 tsp kosher salt + 1/2 tsp granulated sugar dissolved in 1 tbsp hot water, teriyaki sauce', '1/2 cup = 1/4 cup Worcestershire sauce mixed with 1 tbsp water'], '2 tsp. light brown sugar': ['1 cup = 1 cup white sugar + 1/4 cup molasses and decrease the liquid by 1/4 cup'], '1/3 cup cornstarch': ['1 tbsp = 2 tbsp all-purpose flour']}.
+      "substitute": {"1 tbs. soy sauce": ["1 tbsp = 1 tbsp teriyaki Sauce", "1 tbsp = 3/4 tsp kosher salt + 1/2 tsp granulated sugar dissolved in 1 tbsp hot water, teriyaki sauce", "1/2 cup = 1/4 cup Worcestershire sauce mixed with 1 tbsp water"], "2 tsp. light brown sugar": ["1 cup = 1 cup white sugar + 1/4 cup molasses and decrease the liquid by 1/4 cup"], "1/3 cup cornstarch": ["1 tbsp = 2 tbsp all-purpose flour"]},
       "calories" : 1298.5083440000003,
       "totalWeight" : 883.802441262073,
       "totalTime" : 0.0,
