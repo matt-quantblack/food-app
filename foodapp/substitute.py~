@@ -3,13 +3,32 @@ import json
 
 
 
-def getSubstitute(Ingredients,InputtedIngredients):
+def getSubstitute(RecipeURI,InputtedIngredients):
     #API Keys
+    app_id = "a54a3ae5"
+    app_key = "78b09548b69cd449b42676b6c1e6c1fb"
     headers = {
 	"x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
 	"x-rapidapi-key": "1bb222a567mshc7a02d467055386p198260jsn37a44f5106fd"
     }
     
+    #Getting Recipe 
+    RecipeIdPos = RecipeURI.find("recipe_") + len("recipe_")
+    RecipeID = RecipeURI[RecipeIdPos:]
+    if RecipeID == "":
+        raise ValueError("No ID")
+    
+    uri = f"https://api.edamam.com/search?q={RecipeID}&app_id={app_id}&app_key={app_key}"
+    r = requests.get(uri)
+    if r.status_code != 200:
+        raise ValueError("HTTP Error")
+        
+    json = r.json()
+    if json["count"] != 1:
+        raise ValueError("Incorrect")
+    
+    #Getting Ingredients
+    Ingredients = json["hits"][0]["recipe"]["ingredientLines"]
     SubsDict = {}
     for I in Ingredients:
         is_match = False
@@ -35,4 +54,4 @@ def getSubstitute(Ingredients,InputtedIngredients):
     return SubsDict
 
 
-print(getSubstitute(["sesame seeds, for sprinkling"],["Orange","Chicken"]))
+print(getSubstitute("http://www.edamam.com/ontologies/edamam.owl#recipe_280642e9ed18216826e045a9427a0839",["Orange","Chicken"]))
