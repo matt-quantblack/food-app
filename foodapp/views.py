@@ -5,7 +5,7 @@ from .mock_lists import getMockResponse, getMockResponseRecipes, getOzBox, Ingre
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.db import IntegrityError
-from .models import Recipe, Profile
+from .models import Recipe, Profile, ActivateExternalAPI
 from .sorting import getOrderedRecipes, initialiseDic, leastNeededIngredient
 from django.db.models import Avg
 from .substitute import getSubstitute
@@ -172,9 +172,11 @@ def get_results(request):
             print("No user")
         #do stuff with user preferences here
 
-    r = requests.get(uri, params=request.GET)
-
-    #r = getMockResponseRecipes()
+    val = ActivateExternalAPI.objects.first()
+    if val.active == True:
+        r = requests.get(uri, params=request.GET)
+    else:
+        r = getMockResponseRecipes()
 
     if r.status_code == 200:
         json = r.json()
