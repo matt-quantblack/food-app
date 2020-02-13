@@ -21,7 +21,7 @@ def train():
     # Loads Pandas dataframe
     data = Dataset.load_from_df(df[["user", "item", "rating"]], reader)
 
-
+    trainingSet = data.build_full_trainset()
 
     # To use item-based cosine similarity
     sim_options = {
@@ -30,13 +30,13 @@ def train():
     }
     algo = KNNWithMeans(sim_options=sim_options)
 
-    algo.fit(data)
+    algo.fit(trainingSet)
 
     return algo
 
 def get_pred(algo, user, item):
 
-    prediction = algo.predict('E', 2)
+    prediction = algo.predict(user, item)
 
     return prediction.est
 
