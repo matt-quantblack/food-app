@@ -24,7 +24,7 @@ def findSimilarIngred(ingred, recipes, weight):
             for m in range(len(ingred)): #loops through ingredient from user
                 if ingred[m] in currentRecipeIngred: #checks if user ingredient is in current ingredient
                     ingredientInRecipe[m] = True
-                    print(ingred[m])
+
 
         counter = 0 #counter for number of ingredients that user has
         for val in ingredientInRecipe:
@@ -56,10 +56,9 @@ def getOrderedRecipes(recipes):
 #        ["d", "e", "f"]]
 # ls3 = ["a"]
 #
-initialiseDic(mock_recipes)
-leastNeededIngredient(userIngredients, mock_recipes)
+#initialiseDic(mock_recipes)
+#leastNeededIngredient(userIngredients, mock_recipes)
 # print(dic)
-print(getOrderedRecipes(mock_recipes))
 #
 # print(leastNeededIngredient(ls1, ls2))
 # print(dic)
