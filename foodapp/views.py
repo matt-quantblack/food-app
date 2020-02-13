@@ -163,7 +163,7 @@ def get_results(request):
 
     token = request.GET.get('auth', None)
     uri = 'https://api.edamam.com/search?q='+ ingredients +'&app_id=e4819de5&app_key=2092d79ab6d0992be43923df03bf42ed&from=0&to=100'+preferences
-
+    print(uri)
     user = None
     if token is not None:
         try:
