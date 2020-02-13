@@ -172,11 +172,15 @@ def get_results(request):
             print("No user")
         #do stuff with user preferences here
 
+    """
     val = ActivateExternalAPI.objects.first()
     if val.active == True:
         r = requests.get(uri, params=request.GET)
     else:
         r = getMockResponseRecipes()
+    """
+
+    r = getMockResponseRecipes()
 
     if r.status_code == 200:
         json = r.json()
