@@ -153,6 +153,15 @@ def make_recipe(request):
     else:
         return JsonResponse({'error': 'User is not logged in/'})
 
+def get_substitutes(request):
+    inputs = request.GET.get('inputs', None)
+    ingredients = request.GET.get('ingredients', None)
+
+
+    subs = getSubstitute(ingredients, inputs)
+
+    return JsonResponse(subs)
+
 def get_results(request):
 
     ingredients = request.GET.get('q', None)
@@ -202,7 +211,6 @@ def get_results(request):
                             Match.append(i.title())
                 Recipe["match"] = list(set(Match))
                 #using mock list for now
-                #Recipe["substitutes"] = getSubstitute(Ingredients, Inputs)
                 Recipe["method"] = ["1. Preheat oven to 200°c. Combine ricotta, grated parmesan, egg, finely grated lemon rind, thyme leaves and pinch dried chilli flakes in a bowl. Season.",
                                     "2. Spoon into 4 x 10cm heart-shaped pans. Brush tops with olive oil. Bake for 20 minutes or until golden and set.",
                                     "3. Serve with toast and tomato medley and basil."]
