@@ -8,7 +8,7 @@ from django.db import IntegrityError
 from .models import Recipe, Profile
 from .sorting import getOrderedRecipes, initialiseDic, leastNeededIngredient
 from django.db.models import Avg
-
+from .substitute import getSubstitute
 from .recommender import train, get_pred
 import requests
 
@@ -200,6 +200,8 @@ def get_results(request):
                         if I.find(i) != -1:
                             Match.append(i.title())
                 Recipe["match"] = list(set(Match))
+                #using mock list for now
+                #Recipe["substitutes"] = getSubstitute(Ingredients, Inputs)
                 Recipe["method"] = ["1. Preheat oven to 200°c. Combine ricotta, grated parmesan, egg, finely grated lemon rind, thyme leaves and pinch dried chilli flakes in a bowl. Season.",
                                     "2. Spoon into 4 x 10cm heart-shaped pans. Brush tops with olive oil. Bake for 20 minutes or until golden and set.",
                                     "3. Serve with toast and tomato medley and basil."]
