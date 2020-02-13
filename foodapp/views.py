@@ -157,10 +157,10 @@ def get_substitutes(request):
     inputs = request.GET.get('inputs', None)
     ingredients = request.GET.get('ingredients', None)
 
-
-    subs = getSubstitute(ingredients, inputs)
-
-    return JsonResponse(subs)
+    print(inputs, ingredients)
+    subs = getSubstitute(ingredients.split(','), inputs.split(','))
+    print (subs)
+    return JsonResponse({'data': subs})
 
 def get_results(request):
 
