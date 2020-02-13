@@ -23,7 +23,7 @@ def getMockResponseRecipes():
     return mockResponse
 
 def getOzBox(name):
-    return BoxDict[name]
+    return BoxDict[name.lower()]
 
     
     
@@ -2110,16 +2110,16 @@ mock_recipes = {
   } ]
 }
 
-BoxDict = {"OzBox 1" : ["Carrot","Ham","Gherkin","Triticale","Pasta","Millet","Sweet potato", "Whiting"],
-"OzBox 2" : ["Breadcrumbs","Nut","Rhubarb","Milk","Quail","Cordial","Taro","Seaweed","Currant","Vinegar "],
-"OzBox 3" : ["Paste","Jelly","Camel","Bacon","Popcorn","Buckwheat groats","Pea","Wine","Blue grenadier","Fruit salad"],
-"OzBox 4" : ["Bean","Snow pea","Capers","Prosciutto","Rye","Gravy","Cocoa powder","Cumquat ","Lemon","Pancake"],
-"OzBox 5" : ["Eggplant","Grape","Paprika","Shark","Cream","Sage","Mango"],
-"OzBox 6" : ["Fennel","Mutton","Cider","Fenugreek seed","Celeriac","Thyme","Tart","Psyllium"],
-"OzBox 7" : ["Rambutan","Dill","Brussels sprout","Shallot","Parsley","Margarine spread","Pineapple"],
-"OzBox 8" : ["Amaranth","Lentil","Syrup","Corn chips","Mixed vegetables","Pikelet","Silverbeet"],
-"OzBox 9" : ["Pasta in cream based sauce","Lamb","Banana","Goji berry","Chocolate","Buffalo"],
-"OzBox 10" : ["Pudding","Mustard powder","Bread","Yeast","Honey","Dripping","Duck","Taco shell","Kingfish"]}
+BoxDict = {"ozbox 1" : ["Carrot","Ham","Gherkin","Triticale","Pasta","Millet","Sweet potato", "Whiting"],
+"ozbox 2" : ["Breadcrumbs","Nut","Rhubarb","Milk","Quail","Cordial","Taro","Seaweed","Currant","Vinegar "],
+"ozbox 3" : ["Paste","Jelly","Camel","Bacon","Popcorn","Buckwheat groats","Pea","Wine","Blue grenadier","Fruit salad"],
+"ozbox 4" : ["Bean","Snow pea","Capers","Prosciutto","Rye","Gravy","Cocoa powder","Cumquat ","Lemon","Pancake"],
+"ozbox 5" : ["Eggplant","Grape","Paprika","Shark","Cream","Sage","Mango"],
+"ozbox 6" : ["Fennel","Mutton","Cider","Fenugreek seed","Celeriac","Thyme","Tart","Psyllium"],
+"ozbox 7" : ["Rambutan","Dill","Brussels sprout","Shallot","Parsley","Margarine spread","Pineapple"],
+"ozbox 8" : ["Amaranth","Lentil","Syrup","Corn chips","Mixed vegetables","Pikelet","Silverbeet"],
+"ozbox 9" : ["Pasta in cream based sauce","Lamb","Banana","Goji berry","Chocolate","Buffalo"],
+"ozbox 10" : ["Pudding","Mustard powder","Bread","Yeast","Honey","Dripping","Duck","Taco shell","Kingfish"]}
 
 
 IngredientsList = ["OzBox 1" ,"OzBox 2" ,"OzBox 3" ,"OzBox 4" ,"OzBox 5" ,"OzBox 6" ,"OzBox 7" ,"OzBox 8" ,"OzBox 9" ,"OzBox 10", "Abalone","Amaranth","Anchovy","Apple","Apricot","Artichoke","Artichoke heart","Asparagus","Avocado","Bacon","Baked beans","Bamboo shoot","Banana","Bar","Barley","Barramundi","Basil","Bassa","Bassa","Bean","Beef","Beer","Beetroot","Beverage base","Biscuit","Blackberry","Blue grenadier","Blueberry","Bok choy","Braised steak","Bread","Bread roll","Breadcrumbs","Breakfast cereal","Bream","Broccoli","Broccolini","Brussels sprout","Buckwheat groats","Buffalo","Bulgur","Bun","Cabbage","Cake","Cake mix","Camel","Capers","Capsicum","Caramels","Cardamom seed","Carrot","Cassava","Cauliflower","Celeriac","Celery","Cheese","Cherry","Chicken","Chickpea","Chicory","Chilli","Chives","Chocolate","Choko","Chutney","Relish","Cinnamon","Cloves","Cocoa powder","Coconut","Cod","Cod", "Hake","Coffee","Cone","Coriander","Coriander seed","Corn","Corn chips","Cornmeal","Couscous","Crab","Cranberry","Cream","Crocodile","Croissant","Crumpet","Cucumber","Cumin seed","Cumquat","Currant","Curry powder","Custard","Custard apple","Custard powder", "Yoghurt","Date","Dill","Doughnut","Dressing","Dripping","Duck","Egg","Eggplant","Emu","Endive","Feijoa","Fennel","Fenugreek seed","Fig","Fish","Fish finger","Flathead","Flour","Frankfurt","Fruit drink","Fruit salad","Garlic","Gelatine","Gemfish","Ghee","Gherkin","Ginger","Goat","Goji berry","Grape","Grapefruit","Gravy","Gravy powder","Guava","Ham","Hamburger","Honey","Hot dog","Ice confection","Ice cream","Jackfruit","Jam","Jelly","Jelly crystals","Kale","Kangaroo","Kingfish","Kiwifruit","Kohlrabi","Lamb","Lasagne","Leek","Lemon","Lemon peel","Lentil","Lettuce","Lime","Liquorice","Lobster","Lolly","Loquat","Lupin","Lychee","Macaroni","Cheese","Mackerel","Maize","Mandarin","Mango","Margarine spread","Marmalade","Mayonnaise","Melon","Meringue","Milk","Milkfish","Millet","Mineral water","Mint","Dried fruit","Mixed vegetables","Morwong","Muesli","Muffin","Mulberry","Mullet","Mulloway","Mushroom","Mussel","Mustard","Mustard powder","Mutton","Nectarine","Noodle","Noodle snack","Nut","Nutmeg","Oat beverage","Oats","Octopus","Oil","Okra","Olive","Onion","Orange","Oregano","Ostrich","Oyster","Pancake","Paprika","Parsley","Parsnip","Passionfruit","Pasta","Pasta in cream based sauce","Paste","Pastry","Pawpaw","Pea","Peach","Peanut butter","Pear","Pepper","Persimmon","Pie","Pigeon","Pikelet", "Pancake","Pineapple","Pineapple","Pizza","Plum","Pomegranate","Popcorn","Pork","Porridge","Potato","Potato crisps", "Chips","Potato straws","Prawn","Prickly pear","Prosciutto","Prune","Psyllium","Pudding","Pumpkin","Quail","Quandong","Quince","Quinoa","Rabbit","Radish","Raisin","Rambutan","Raspberry","Rhubarb","Rice","Rice beverage","Rice paper wrapper","Rocket","Rosemary","Rye","Sage","Salmon","Sardine","Sauce","Sausage","Sausage roll","Sausages","Vegetables","Scallop","Scone","Seaweed","Semolina","Shallot","Silver perch","Silverbeet","Slice","Snapper","Snow pea","Soft drink","Sorghum","Soup","Spaghetti", "Cheese sauce","Spam","Spelt","Spinach","Sprat","Spring roll","Sprout","Squash","Squid", "Calamari","Starch","Steak","Stock","Strawberry","Sugar","Sultana","Swede","Sweet potato","Syrup","Taco seasoning mix","Taco shell","Tahini","Tamarillo","Tamarind","Tangelo","Tangerine", "Tangor","Tapioca","Taro","Tart","Thyme","Tilapia","Tofu","Tomato","Triticale","Trout","Tuna","Turkey","Turmeric","Turnip","Vanilla","Vanilla bean extract","Veal","Vine leaf","Vinegar","Water chestnut","Watercress","Wattle seed","Wax jambu","Wheat","Wheat bran","Wheat germ","Whiting","Wine","Yam","Yeast","Yoghurt","Zucchini"]
