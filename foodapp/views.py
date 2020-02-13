@@ -172,9 +172,9 @@ def get_results(request):
             print("No user")
         #do stuff with user preferences here
 
-    #r = requests.get(uri, params=request.GET)
+    r = requests.get(uri, params=request.GET)
 
-    r = getMockResponseRecipes()
+    #r = getMockResponseRecipes()
 
     if r.status_code == 200:
         json = r.json()
