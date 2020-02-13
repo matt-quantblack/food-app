@@ -158,7 +158,10 @@ def get_substitutes(request):
     ingredients = request.GET.get('ingredients', None)
 
     print(inputs, ingredients)
-    subs = getSubstitute(inputs.split(','), ingredients.split(','))
+    try:
+        subs = getSubstitute(ingredients.split("|"), inputs.split(','))
+    except:
+        subs = []
     print (subs)
     return JsonResponse({'data': subs})
 
