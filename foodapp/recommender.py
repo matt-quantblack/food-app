@@ -5,8 +5,7 @@ from surprise import KNNWithMeans
 
 def train():
 
-    # This is the same data that was plotted for similarity earlier
-    # with one new user "E" who has rated only movie 1
+    # TODO put in real data here when we have collected enough
     ratings_dict = {
         "item": [1, 2, 1, 2, 1, 2, 1, 2, 1],
         "user": ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D', 'E'],

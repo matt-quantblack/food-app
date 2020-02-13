@@ -210,9 +210,18 @@ def get_results(request):
             leastNeededIngredient(Inputs, json)
             json = getOrderedRecipes(json)
 
+            #train the recommended algo
             algo = train()
-            pred = get_pred(algo, 'E', 2)
-            print(pred)
+            if user is not None:
+                RecipeResult = json["hits"]
+                for hits in RecipeResult:
+                    Recipe = hits["recipe"]
+                    rid = Recipe["uri"].split("_")[1]
+                    #pred = get_pred(algo, user.id, rid)
+                    pred = get_pred(algo, 'E', 2) #comment this out when model is trained
+                    if pred > 0.5:
+                        Recipe["recommended"] = True
+                    print(pred)
 
             return JsonResponse(json, safe=False)
         else:
